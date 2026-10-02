@@ -1,0 +1,4 @@
+#Secrets -- cookies never committed 
+.env
+
+.DS_Store
