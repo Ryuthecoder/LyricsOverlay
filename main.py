@@ -17,5 +17,17 @@ spotify_cookie = {
 
 r = requests.get(url, cookies=spotify_cookie)
 
+#LRCLIB request
+api_url = "https://lrclib.net/api/search"
+query_track = {
+    "track_name" : "Payphone",
+    "artist_name" : "Maroon 5",
+    "album_name" : "Overexposed",
+    "duration" : "37"
+}
+
+c = requests.get(api_url,params=query_track)
+
+print(c.text)
 print(sp_dc)
 print(r.status_code) 
