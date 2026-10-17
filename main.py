@@ -73,7 +73,7 @@ song = {
     "is_playing" : data["is_playing"] #for LRCLIB, paused or playing to stop or start lyrics
 }
 
-print(song)
+# print(song)
 
 #=============================
 #Syncing formatted data with LRCLIB 
@@ -81,7 +81,7 @@ print(song)
 LRCLIB_url = "https://lrclib.net/api/get"
 LRCLIB_params = {
     "track_name" : song["song_name"],
-    "arist_name" : song["artist_name"],
+    "artist_name" : song["artist_name"],
     "album_name" : song["album_name"],
     "duration" : round(song["duration_ms"]/1000) #LRCLIB duration is in seconds so we need to convert ms to seconds
 }
@@ -89,7 +89,7 @@ LRCLIB_headers = {"User_Agent": "LyricsOverlay"} #LRCLIB requires which app (for
 
 lyrics_response = requests.get(LRCLIB_url, params=LRCLIB_params, headers=LRCLIB_headers)
 unformatted_Syncedlyrics = lyrics_response.json()
-# print(unformatted_Syncedlyrics)
+print(unformatted_Syncedlyrics)
 
 
 
