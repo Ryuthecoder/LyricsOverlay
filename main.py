@@ -9,6 +9,7 @@ sp_dc = os.getenv("SP_DC")
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 redirect_url = os.getenv("REDIRECT_URL")
+refresh_token = os.getenv("REFRESH_TOKEN")
 
 
 auth_url= "https://accounts.spotify.com/authorize"
@@ -27,13 +28,26 @@ print(consent_url)
 
 token_url = "https://accounts.spotify.com/api/token"
 credientials = {
-    "grant_type" : "authorization_code",
-    "code" : "AQAdM13EDHldQ6hRRLe86YVhlkDBCeljkUx7FgHqRtAffQEnV8TUUpWCPaVYzwi3KkaHcur2quPSR2v7cK447VWvS_hvSjovP-BCQtRwj5tLiGsUF5V2fxyNSmKPLD0fAwV9pmkZSOPsFLKv5fF6V9s0_W6Ngueu2-5pUxdm8xXLRj2p80Ct2Wjo2MH8KaS8ZpQ1gyTIe7XTvlFGrIE0tks1Dz9V78oLClz1M9Y3vlzQ9IJFXB5CnF4sjTlVxRHKppKmB6Wo",
+    "grant_type" : "refresh_token",
+    "refresh_token" : refresh_token,
     "redirect_uri" : redirect_url
+    
 }
 
 r = requests.post(token_url, data=credientials, auth=(client_id,client_secret))
 
+print(r.text)
+
+token_data = r.json()
+access_token = token_data["access_token"]
+
+url = "https://api.spotify.com/v1/me/player/currently-playing"
+headers = {
+    "Authorization" : "Bearer " + access_token #Note: Spotify processes access token by splitting it on a space, so a missing space after Bearer will result in error
+}
+
+r = requests.get(url, headers=headers)
+print(r.status_code)
 print(r.text)
 
 #LRCLIB request
