@@ -24,7 +24,7 @@ spotify_cookie = {
 
 r = requests.Request("GET",auth_url, params=spotify_cookie) #Assemble request
 consent_url = r.prepare().url #Prepares the request to retrieve consent url for Spotify API access
-print(consent_url)
+# print(consent_url)
 
 token_url = "https://accounts.spotify.com/api/token"
 credientials = {
@@ -36,7 +36,7 @@ credientials = {
 
 r = requests.post(token_url, data=credientials, auth=(client_id,client_secret))
 
-print(r.text)
+# print(r.text)
 
 token_data = r.json()
 access_token = token_data["access_token"]
@@ -46,9 +46,27 @@ headers = {
     "Authorization" : "Bearer " + access_token #Note: Spotify processes access token by splitting it on a space, so a missing space after Bearer will result in error
 }
 
-r = requests.get(url, headers=headers)
-print(r.status_code)
-print(r.text)
+player_request = requests.get(url, headers=headers)
+print(player_request.status_code)
+# print(player_request.text)
+
+data = player_request.json()
+item = data["item"] #If I look at the output, I see that "item" is a key dictionary that holds all the relevant track information
+
+song = {
+    "id" : item["id"], #necessary for when song changes 
+    "song_name" : item["name"], #necessary for syncing with LRCLIb
+    "artist_name" : item["artists"][0]["name"], #necessary for syncing with LRCLIb
+    "album_name" : item["album"]["name"], #necessary for syncing with LRCLIb
+    "duration_ms" : item["duration_ms"], #for LRCLIB (ms = miliseconds)
+    
+    "progress_ms" : data["progress_ms"], #for LRCLIB, progress in ms into the song
+    "is_playing" : data["is_playing"] #for LRCLIB, paused or playing to stop or start lyrics
+}
+
+print(song)
+
+
 
 #LRCLIB request
 api_url = "https://lrclib.net/api/search"
