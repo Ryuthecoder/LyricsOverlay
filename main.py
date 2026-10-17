@@ -11,6 +11,9 @@ client_secret = os.getenv("CLIENT_SECRET")
 redirect_url = os.getenv("REDIRECT_URL")
 refresh_token = os.getenv("REFRESH_TOKEN")
 
+#============================
+#OUTDATED: Since I already have refresh_token, I don't need to attain authorization_token using consent url anymore
+#Spotify API Access (attaining consent url to retrieve authroization_token necessary for retrieving refresh_token)
 
 auth_url= "https://accounts.spotify.com/authorize"
 
@@ -25,6 +28,9 @@ spotify_cookie = {
 r = requests.Request("GET",auth_url, params=spotify_cookie) #Assemble request
 consent_url = r.prepare().url #Prepares the request to retrieve consent url for Spotify API access
 # print(consent_url)
+
+#============================
+#Spotify API Access (attaining access_token using refresh_token)
 
 token_url = "https://accounts.spotify.com/api/token"
 credientials = {
@@ -50,6 +56,9 @@ player_request = requests.get(url, headers=headers)
 print(player_request.status_code)
 # print(player_request.text)
 
+#============================
+#Formatting Spotify Data for LRCLIB
+
 data = player_request.json()
 item = data["item"] #If I look at the output, I see that "item" is a key dictionary that holds all the relevant track information
 
@@ -66,9 +75,33 @@ song = {
 
 print(song)
 
+#=============================
+#Syncing formatted data with LRCLIB 
+
+LRCLIB_url = "https://lrclib.net/api/get"
+LRCLIB_params = {
+    "track_name" : song["song_name"],
+    "arist_name" : song["artist_name"],
+    "album_name" : song["album_name"],
+    "duration" : round(song["duration_ms"]/1000) #LRCLIB duration is in seconds so we need to convert ms to seconds
+}
+LRCLIB_headers = {"User_Agent": "LyricsOverlay"} #LRCLIB requires which app (for me, it's this program) is contacting LRCLIB
+
+lyrics_response = requests.get(LRCLIB_url, params=LRCLIB_params, headers=LRCLIB_headers)
+unformatted_Syncedlyrics = lyrics_response.json()
+# print(unformatted_Syncedlyrics)
 
 
-#LRCLIB request
+
+
+
+
+
+
+
+#=============================
+#           Practice
+#LRCLIB request practice 
 api_url = "https://lrclib.net/api/search"
 query_track = {
     "track_name" : "Payphone",
