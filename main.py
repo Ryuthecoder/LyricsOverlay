@@ -76,7 +76,7 @@ song = {
 # print(song)
 
 #=============================
-#Syncing formatted data with LRCLIB 
+#Retrieving unformatted lyrics data from LRCLIB web api
 
 LRCLIB_url = "https://lrclib.net/api/get"
 LRCLIB_params = {
@@ -85,11 +85,40 @@ LRCLIB_params = {
     "album_name" : song["album_name"],
     "duration" : round(song["duration_ms"]/1000) #LRCLIB duration is in seconds so we need to convert ms to seconds
 }
-LRCLIB_headers = {"User_Agent": "LyricsOverlay"} #LRCLIB requires which app (for me, it's this program) is contacting LRCLIB
+LRCLIB_headers = {"User-Agent": "LyricsOverlay"} #LRCLIB requires which app (for me, it's this program) is contacting LRCLIB
 
 lyrics_response = requests.get(LRCLIB_url, params=LRCLIB_params, headers=LRCLIB_headers)
-unformatted_Syncedlyrics = lyrics_response.json()
-print(unformatted_Syncedlyrics)
+lyrics_data = lyrics_response.json()
+unformatted_syncedLyrics = lyrics_data["syncedLyrics"]
+# print(lyricsData)
+# print(unformatted_syncedLyrics)
+test = unformatted_syncedLyrics[5]
+print(test)
+
+#=============================
+#Formatting unformatted lyrics  from LRCLIB web api
+lyrics = []
+for line in unformatted_syncedLyrics.splitlines():
+    temp = line[1:]
+    parts = temp.split("]",1)
+    stamp = parts[0].split(":")
+    text = parts[1]
+
+    lyric_line = text.strip()
+
+    minutes = stamp[0]
+    seconds = stamp[1]
+
+    int_minutes = int(minutes)
+    float_seconds = float(seconds)
+    time_ms = (int_minutes * 60 + float_seconds) * 1000
+
+    lyrics.append({"time": time_ms, "text": lyric_line})
+
+# print(lyrics)
+print(lyrics[0].get("time"))
+
+
 
 
 
