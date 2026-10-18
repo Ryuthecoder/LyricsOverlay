@@ -27,8 +27,8 @@ spotify_cookie = {
     "scope" : "user-read-currently-playing",
 }
 
-r = requests.Request("GET",auth_url, params=spotify_cookie) #Assemble request
-consent_url = r.prepare().url #Prepares the request to retrieve consent url for Spotify API access
+consent_request = requests.Request("GET",auth_url, params=spotify_cookie) #Assemble request
+consent_url = consent_request.prepare().url #Prepares the request to retrieve consent url for Spotify API access
 # print(consent_url)
 
 #============================
@@ -46,11 +46,11 @@ while True:
         
     }
 
-    r = requests.post(token_url, data=credientials, auth=(client_id,client_secret))
+    access_token_request = requests.post(token_url, data=credientials, auth=(client_id,client_secret))
 
     # print(r.text)
 
-    token_data = r.json()
+    token_data = access_token_request.json()
     access_token = token_data["access_token"]
 
     url = "https://api.spotify.com/v1/me/player/currently-playing"
