@@ -142,9 +142,9 @@ while True:
         last_line = current
 
     time.sleep(0.1) #conserving computing resource
-
-
-
+ 
+  
+    
 
 #=============================
 #           Practice
