@@ -1,5 +1,7 @@
 import os
 
+
+import time
 import requests 
 from dotenv import load_dotenv
 
@@ -98,8 +100,8 @@ print(test)
 #=============================
 #Formatting unformatted lyrics  from LRCLIB web api
 lyrics = []
-for line in unformatted_syncedLyrics.splitlines():
-    temp = line[1:]
+for lyric in unformatted_syncedLyrics.splitlines():
+    temp = lyric[1:]
     parts = temp.split("]",1)
     stamp = parts[0].split(":")
     text = parts[1]
@@ -118,12 +120,28 @@ for line in unformatted_syncedLyrics.splitlines():
 # print(lyrics)
 print(lyrics[0].get("time"))
 
+#=============================
+#Syncing Spotify live lryics with those of LRCLIB
+
+start_progress = song["progress_ms"] #fixes the error of misdetection by this program when song is already playing
+start_time = time.time()
+last_line = None
 
 
+while True:
 
+    progress = start_progress + ((time.time() - start_time)*1000)
 
+    current = ""
+    for line in lyrics:
+        if line["time"] <= progress:
+            current = line["text"]
 
+    if current != last_line:
+        print(current)
+        last_line = current
 
+    time.sleep(0.1) #conserving computing resource
 
 
 
