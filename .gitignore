@@ -1,4 +1,2 @@
-#Secrets -- cookies never committed 
+#Personal secret keys are not committed
 .env
-
-.DS_Store
