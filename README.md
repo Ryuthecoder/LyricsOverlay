@@ -27,8 +27,8 @@ Software:
 	- Since the project involves a hardware aspect, time allocation for software development must be decided accordingly.
 	
 Hardware:
-	- The manufacturing of external display needs to be accessible and relatively cheap:
-		- The rectangular frame will be 3D-printed using school’s 3D printer:
-		- Filament: Matte PLA, an accessible and cheap filament that offers 
-non-reflective and smooth surface.
-	- The size of the display is suitable for placing it on the desktop.
+
+- The manufacturing of external display needs to be accessible and relatively cheap:
+	- The rectangular frame will be 3D-printed using school’s 3D printer:
+	- Filament: Matte PLA, an accessible and cheap filament that offers non-reflective and smooth surface.
+- The size of the display is suitable for placing it on the desktop.
