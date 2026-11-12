@@ -27,6 +27,19 @@ class Widget(QWidget):
         def stop(self):
             raise NotImplementedError(f"{type(self).__name__} define stop()")
 
+        # shared (for saving and restoring position of widget)
+        def save_state(self) -> dict:  
+            return { 
+                "x": self.x(),
+                "y": self.y(),
+                "always_on_top": self.always_on_top
+            }
+
+        def load_state(self, state: dict):
+            x = state.get("x", 100) #default is 100 in the case that there is no x position that is saved
+            y = state.get("y", 100)
+            self.move(x,y)
+
         def draw_content(self, painter: QPainter):
             raise NotImplementedError(f"{type(self).__name__} define draw_content()")
 

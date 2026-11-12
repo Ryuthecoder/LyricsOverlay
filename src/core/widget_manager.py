@@ -3,7 +3,8 @@ from core.settings_store import SettingsStore
 
 class WidgetManager: 
     def __init__(self, settings: SettingsStore, widget_types: dict[str, type[Widget]]):
-  
+        self.settings = settings
+        self.widget_types = dict[str, type[Widget]]
 
     def open_all(self):
 
@@ -11,6 +12,8 @@ class WidgetManager:
 
     def open_widget(self, widget_id: str):
 
+        
+        
         pass
 
     def close_widget(self, widget_id: str):
