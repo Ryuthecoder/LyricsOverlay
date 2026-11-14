@@ -8,6 +8,8 @@ class SettingsStore :
         self.data = {"widgets":{}} #no widgets to start with
 
     def load(self):
+        if not os.path.exists(self.path):
+            return
         with open(self.path, "r") as file:
             self.data = json.load(file)
 
