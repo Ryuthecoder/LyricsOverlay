@@ -12,6 +12,7 @@ class SettingsStore :
             self.data = json.load(file)
 
     def save(self):
+        
         with open(self.path, "w") as file:
             json.dump(self.data, file, indent = 3)
 

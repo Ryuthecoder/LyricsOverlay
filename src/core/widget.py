@@ -48,7 +48,7 @@ class Widget(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(20,20,20,170))
+        painter.setBrush(QColor(20, 20, 20))  
         painter.drawRoundedRect(self.rect(),16,16)
         self.draw_content(painter)
         painter.end()
