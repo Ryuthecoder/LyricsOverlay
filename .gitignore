@@ -1,2 +1,4 @@
+.venv/
+.DS_Store
 #Personal secret keys are not committed
 .env

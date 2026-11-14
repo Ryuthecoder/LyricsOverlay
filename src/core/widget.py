@@ -20,50 +20,50 @@ class Widget(QWidget):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(300,120)
 
-        # abstract: unique for each widget
-        def start(self):
-            raise NotImplementedError(f"{type(self).__name__} define start()")
+    # abstract: unique for each widget
+    def start(self):
+        raise NotImplementedError(f"{type(self).__name__} define start()")
 
-        def stop(self):
-            raise NotImplementedError(f"{type(self).__name__} define stop()")
+    def stop(self):
+        raise NotImplementedError(f"{type(self).__name__} define stop()")
 
-        # shared (for saving and restoring position of widget)
-        def save_state(self) -> dict:  
-            return { 
-                "x": self.x(),
-                "y": self.y(),
-                "always_on_top": self.always_on_top
-            }
+    # shared (for saving and restoring position of widget)
+    def save_state(self):  
+        return { 
+            "x": self.x(),
+            "y": self.y(),
+            "always_on_top": self.always_on_top
+        }
 
-        def load_state(self, state: dict):
-            x = state.get("x", 100) #default is 100 in the case that there is no x position that is saved
-            y = state.get("y", 100)
-            self.move(x,y)
+    def load_state(self, state: dict):
+        x = state.get("x", 100) #default is 100 in the case that there is no x position that is saved
+        y = state.get("y", 100)
+        self.move(x,y)
 
-        def draw_content(self, painter: QPainter):
-            raise NotImplementedError(f"{type(self).__name__} define draw_content()")
+    def draw_content(self, painter: QPainter):
+        raise NotImplementedError(f"{type(self).__name__} define draw_content()")
 
-        # shared (for drawing)
-        def paintEvent(self, event):
-            painter = QPainter(self)
-            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-            painter.setPen(Qt.PenStyle.NoPen)
-            painter.setBrush(QColor(20,20,20,170))
-            painter.drawRoundedRect(self.rect(),16,16)
-            self.draw_content(painter)
-            painter.end()
+    # shared (for drawing)
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(QColor(20,20,20,170))
+        painter.drawRoundedRect(self.rect(),16,16)
+        self.draw_content(painter)
+        painter.end()
 
-        # shared (for dragging)
-        def mousePressEvent(self,event):
-            if event.button() == Qt.MouseButton.LeftButton:
-                self._drag_offset = event.globalPosition().toPoint() - self.pos()
+    # shared (for dragging)
+    def mousePressEvent(self,event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._drag_offset = event.globalPosition().toPoint() - self.pos()
 
-        def mouseMoveEvent(self, event):
-            if self._drag_offset is not None:
-                self.move(event.globalPosition().toPoint() - self._drag_offset)
+    def mouseMoveEvent(self, event):
+        if self._drag_offset is not None:
+            self.move(event.globalPosition().toPoint() - self._drag_offset)
 
-        def mouseReleaseEvent(self, event):
-            if self._drag_offset is not None:
-                self._drag_offset = None
-                self.moved.emit(self.widget_id, self.pos())
-                    
+    def mouseReleaseEvent(self, event):
+        if self._drag_offset is not None:
+            self._drag_offset = None
+            self.moved.emit(self.widget_id, self.pos())
+                
