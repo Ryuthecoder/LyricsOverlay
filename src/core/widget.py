@@ -14,7 +14,9 @@ class Widget(QWidget):
         self._drag_offset = None
 
         flags = Qt.WindowType.FramelessWindowHint
+
         
+
         self.setWindowFlags(flags)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(300,120)
