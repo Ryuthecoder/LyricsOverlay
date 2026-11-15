@@ -1,34 +1,29 @@
 import sys
-import json
+import signal
 from PyQt6.QtWidgets import QApplication
-from core.widget_manager import WidgetManager
 from core.settings_store import SettingsStore
+from core.widget_manager import WidgetManager
 from core.widget import Widget
+from widgets.lyrics_widget import LyricsWidget
 
 
-def main() : 
+def main():
     app = QApplication(sys.argv)
-    settings = SettingsStore("test.json")
+
+    settings = SettingsStore("settings.json")
     settings.load()
-    manager = WidgetManager(settings, {"test": Widget})
+    if not settings.get_widget_ids():               # (first run) add the lyrics widget
+        settings.set_state("lyrics1", {"type": "lyrics", "x": 100, "y": 100, "always_on_top": True})
+        # settings.set_state("lyrics2", {"type": "lyrics", "x": 100, "y": 100, "always_on_top": False})
 
-    w = Widget("test", always_on_top=True)
-    a = Widget("test1", always_on_top=False)
+    dict = {
+        "lyrics": LyricsWidget,
 
-    w.draw_content = lambda painter: None   
-    w.load_state(settings.get_state(w.widget_id))
-    w.moved.connect(manager._widget_moved)            # prints the position when dragged
-    w.show()
-
-    a.draw_content = lambda painter: None   
-    a.load_state(settings.get_state(a.widget_id))
-    a.moved.connect(manager._widget_moved)            # prints the position when dragged
-    a.show()
-
-    print(json.dumps(settings.data, indent=4))
-
+    }
+    manager = WidgetManager(settings, dict)
+    manager.open_all()
     app.exec()
+
 
 if __name__ == "__main__":
     main()
-    

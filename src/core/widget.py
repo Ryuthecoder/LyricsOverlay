@@ -14,8 +14,7 @@ class Widget(QWidget):
         self._drag_offset = None
 
         flags = Qt.WindowType.FramelessWindowHint
-        if always_on_top:
-            flags |= Qt.WindowType.WindowStaysOnTopHint
+        
         self.setWindowFlags(flags)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(300,120)
@@ -49,7 +48,7 @@ class Widget(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(QColor(20, 20, 20))  
-        painter.drawRoundedRect(self.rect(),16,16)
+        painter.drawRoundedRect(self.rect(),40,40)
         self.draw_content(painter)
         painter.end()
 

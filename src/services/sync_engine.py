@@ -1,5 +1,5 @@
 import time 
-from PyQt6.qtCore import QObject, QTimer, pyqtSignal 
+from PyQt6.QtCore import QObject, QTimer, pyqtSignal 
 from services.spotify_service import get_access_token, get_current_song
 from services.lyrics_service import fetch_lyrics
 
@@ -9,7 +9,7 @@ class SyncEngine(QObject):
     line_changed = pyqtSignal(str, str)
     no_lyrics = pyqtSignal(str)
 
-    def __init__self(self):
+    def __init__(self):
         super().__init__()
         self.access_token = None
         self.song = None
@@ -42,7 +42,7 @@ class SyncEngine(QObject):
             self.last_line = None
             if not self.lyrics: 
                 self.no_lyrics.emit("No lyrics found")
-                return
+         
 
         self.song = song
         self.start_progress = self.song["progress_ms"]
@@ -52,6 +52,9 @@ class SyncEngine(QObject):
         self.ticks += 1
         if self.ticks % 18000 == 0: #every 30 minutes new access token
             self.access_token = get_access_token()
+
+        if self.ticks % 20 == 0:
+            self.check_spotify() 
 
         if self.song is None or not self.lyrics: #avoids errors)
             return
@@ -69,5 +72,5 @@ class SyncEngine(QObject):
                 next_line = line["text"]
 
         if current != self.last_line:
-            self.line_changed.emit((current, next_line or "") #if there is no next line, empty string is passed not None
-            self.last_line = current)
+            self.line_changed.emit(current, next_line or "") #if there is no next line, empty string is passed not None
+            self.last_line = current

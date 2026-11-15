@@ -47,5 +47,5 @@ class WidgetManager:
         state["x"] = pos.x()
         state["y"] = pos.y()
         self.settings.set_state(widget_id, state)
-        self.settings.save() #settings.json is written
+        self.settings.save() #written on settings.json
         
