@@ -8,6 +8,7 @@ class LyricsWidget(Widget): #subclass of the Widget class
     def __init__(self, widget_id: str, always_on_top: bool = False):
         super().__init__(widget_id, always_on_top)
         self.current_line = ""
+        self.next_line =""
         self.engine = SyncEngine()
         self.engine.line_changed.connect(self.show_line)
         self.engine.no_lyrics.connect(self.show_message)
