@@ -15,7 +15,8 @@ class Widget(QWidget):
 
         flags = Qt.WindowType.FramelessWindowHint
 
-        
+        if self.always_on_top:
+            flags |= Qt.WindowType.WindowStaysOnTopHint
 
         self.setWindowFlags(flags)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
