@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, QRect
 from PyQt6.QtGui import QColor
 from core.widget import Widget
-from services.sync_engine import SyncEngine
+from services.sync_engine_3 import SyncEngine
 
 
 class LyricsWidget(Widget): #subclass of the Widget class

@@ -14,12 +14,13 @@ def main():
     settings.load()
     if not settings.get_widget_ids():               # (first run) add the lyrics widget
         settings.set_state("lyrics1", {"type": "lyrics", "x": 100, "y": 100, "always_on_top": True})
-        settings.set_state("lyrics2", {"type": "lyrics", "x": 100, "y": 100, "always_on_top": False})
+       
 
     dict = {
         "lyrics": LyricsWidget,
 
     }
+    
     manager = WidgetManager(settings, dict)
     manager.open_all()
     app.exec()
